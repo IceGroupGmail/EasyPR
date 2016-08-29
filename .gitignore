@@ -10,6 +10,7 @@ resources/image/tmp/
 *.ilk
 *.lib
 *.pdb
+.DS_Store
 experi
 /tmp
 resources/image/native_test/*.jpg
