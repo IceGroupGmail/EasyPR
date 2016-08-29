@@ -6,6 +6,7 @@
 
 #include "easypr/util/kv.h"
 #include "easypr/core/character.hpp"
+#include "thirdparty/CNN/cnn.hpp"
 
 namespace easypr {
 
@@ -34,8 +35,10 @@ class CharsIdentify {
   CharsIdentify();
 
   static CharsIdentify* instance_;
-  cv::Ptr<cv::ml::ANN_MLP> ann_;
-  cv::Ptr<cv::ml::ANN_MLP> annChinese_;
+  //cv::Ptr<cv::ml::StatModel> ann_;
+  //cv::Ptr<cv::ml::StatModel> annChinese_;
+  cv::Ptr<cv::ml::CNN_MLP> ann_;
+  cv::Ptr<cv::ml::CNN_MLP> annChinese_;
   std::shared_ptr<Kv> kv_;
 };
 }

@@ -86,6 +86,7 @@ void getLBPFeatures(const Mat& image, Mat& features) {
 }
 
 Mat charFeatures(Mat in, int sizeData) {
+	return in;
   const int VERTICAL = 0;
   const int HORIZONTAL = 1;
 

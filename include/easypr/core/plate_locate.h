@@ -56,13 +56,14 @@ class CPlateLocate {
 
 
   int colorSearch(const Mat& src, const Color r, Mat& out,
-                  std::vector<RotatedRect>& outRects, int index = 0);
+                  std::vector<RotatedRect>& outRects);
 
   int mserSearch(const Mat &src, vector<Mat>& out,
     vector<vector<CPlate>>& out_plateVec, bool usePlateMser, vector<vector<RotatedRect>>& out_plateRRect,
     int img_index = 0, bool showDebug = false);
 
   int plateLocate(Mat, std::vector<Mat>&, int = 0);
+  int plateLocate(Mat, std::vector<CPlate>&, int = 0);
 
   bool verifySizes(RotatedRect mr);
 

@@ -10,6 +10,12 @@ EasyPR是一个开源的中文车牌识别系统，其目标是成为一个简�
 
 ### 更新
 
+当前master分支下的版本有以下几点更新：
+
+1.支持linux和mac编译，如果碰到问题请在issue里提问。
+
+2.增加一个无需配置opencv的[懒人版](http://git.oschina.net/easypr/EasyPR/attach_files)。仅仅支持vs2013，也只能在debug和x86下运行，其他情况的话还是得配置opencv。感谢范文捷同学的帮助。页面里的两个文件都要下载，下载后用[7zip](http://www.7-zip.org/)解压。
+
 本次更新是EasyPR 1.5beta版本，主要改进如下：
 
 1.增加了一种新的基于文字定位的定位方法 (MSER), 在面对低对比度，低光照以及大图像上有较强的鲁棒性。
@@ -60,7 +66,9 @@ EasyPR是一个开源的中文车牌识别系统，其目标是成为一个简�
 
 8.替换了一部分中文注释，使得windows下的visual studio在面对全部以LF结尾的文件时，也能成功通过编译。目前的程序只要opencv配置正确，gitosc上通过zip下载下来的程序可以直接通过编译并运行。
 
-关于本次改动的具体内容可以看博客中的介绍。
+关于本次改动的具体内容可以看博客中的[介绍](http://www.cnblogs.com/subconscious/p/5637735.html)。
+
+注意，目前1.4和1.5版的SVM训练好的文件在使用时会有问题，这个原因可能跟opencv3的实现改变有关。建议要训练SVM的话使用基于opencv2的1.3版。
 
 ### 跨平台
 
@@ -68,10 +76,10 @@ EasyPR是一个开源的中文车牌识别系统，其目标是成为一个简�
 
 |版本 | 开发者 | 版本 | 地址 
 |------|-------|-------|-------
-| android |  goldriver  |  1.3  |  [linuxxx/EasyPR_Android](https://github.com/linuxxx/EasyPR_Android)
-| linux | Micooz  |  1.4  |  已跟EasyPR整合
+| android |  goldriver  |  1.4  |  [linuxxx/EasyPR_Android](https://github.com/linuxxx/EasyPR_Android)
+| linux | Micooz  |  1.5  |  已跟EasyPR整合
 | ios | zhoushiwei |  1.3  |  [zhoushiwei/EasyPR-iOS](https://github.com/zhoushiwei/EasyPR-iOS)
-| mac | zhoushiwei,Micooz |  1.4  | 已跟EasyPR整合
+| mac | zhoushiwei,Micooz |  1.5  | 已跟EasyPR整合
 | java | fan-wenjie |  1.2  | [fan-wenjie/EasyPR-Java](https://github.com/fan-wenjie/EasyPR-Java)
 
 ### 兼容性
@@ -160,6 +168,18 @@ CPlate类包含了车牌的各种信息，其中重要的如下：
 
 plateMat代表车牌图像，rrect代表车牌的可旋转矩形位置，license代表车牌字符串，例如“蓝牌：苏EUK722”。
 
+这里说下如何去阅读如下图的识别结果。
+
+![EasyPR DetectResults](resources/doc/res/one_image_detect.jpg)
+
+第1行代表的是图片的文件名。
+
+第2行代表GroundTruth车牌，用后缀（g）表示。第3行代表EasyPR检测车牌，用后缀（d）表示。两者形成一个配对，第4行代表两者的字符差距。
+
+下面同上。本图片中有3个车牌，所有共有三个配对。最后的Recall等指标代表的是整幅图片的定位评价，考虑了三个配对的结果。
+
+有时检测车牌的部分会用“无车牌”与“No string”替代。“无车牌”代表“定位不成功”，“No string”代表“定位成功但字符分割失败”。
+
 ### 版权
 
 EasyPR的源代码与训练数据遵循Apache v2.0协议开源。
@@ -234,11 +254,11 @@ EasyPR的resources/image/general_test文件夹下的图片数据遵循[GDSL协�
 
 如果你在使用过程中遇到任何问题，请在[这里](https://github.com/liuruoze/EasyPR/issues)告诉我们。
 
-EasyPR讨论QQ群号是：366392603，加前请注明EasyPR学习讨论。
+EasyPR讨论QQ群号是：一群：366392603(已满)，二群：583022188， 加前请注明EasyPR学习讨论。
 
 ### Contributors
 
-* liuruoze：1.0-1.2版作者
+* liuruoze：1.0-1.2，1.5版作者
 
 * 海豚嘎嘎(车主之家)：1.3版算法贡献者，提升了车牌定位与字符识别的准确率
 
@@ -251,6 +271,8 @@ EasyPR讨论QQ群号是：366392603，加前请注明EasyPR学习讨论。
 * ahccom：新的plateLocate函数
 
 * 阿水：1.3版整合，数据标注等工作
+
+* fan-wenjie：1.5版opencv整合版提供者
 
 ### 鸣谢
 

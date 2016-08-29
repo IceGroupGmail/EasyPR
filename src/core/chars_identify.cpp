@@ -4,6 +4,7 @@
 #include "easypr/core/core_func.h"
 #include "easypr/core/feature.h"
 #include "easypr/core/params.h"
+#include "thirdparty/CNN/cnn.hpp"
 
 namespace easypr {
 
@@ -17,8 +18,10 @@ namespace easypr {
   }
 
   CharsIdentify::CharsIdentify() {
-    ann_ = ml::ANN_MLP::load<ml::ANN_MLP>(kDefaultAnnPath);
-    annChinese_ = ml::ANN_MLP::load<ml::ANN_MLP>(kChineseAnnPath);
+    //ann_ = ml::ANN_MLP::load<ml::ANN_MLP>(kDefaultAnnPath);
+    //annChinese_ = ml::ANN_MLP::load<ml::ANN_MLP>(kChineseAnnPath);
+	ann_ = ml::CNN_MLP::load<ml::CNN_MLP>("en-cnn.dat");
+	annChinese_ = ml::CNN_MLP::load<ml::CNN_MLP>("zh-cnn.dat");
     kv_ = std::shared_ptr<Kv>(new Kv);
     kv_->load("etc/province_mapping");
   }
@@ -29,7 +32,8 @@ namespace easypr {
       if (!ann_->empty())
         ann_->clear();
 
-      ann_ = ml::ANN_MLP::load<ml::ANN_MLP>(path);
+      //ann_ = ml::ANN_MLP::load<ml::ANN_MLP>(path);
+	  ann_ = ml::CNN_MLP::load<ml::CNN_MLP>("en-cnn.dat");
     }
   }
 
@@ -39,14 +43,14 @@ namespace easypr {
       if (!annChinese_->empty())
         annChinese_->clear();
 
-      annChinese_ = ml::ANN_MLP::load<ml::ANN_MLP>(path);
+      //annChinese_ = ml::ANN_MLP::load<ml::ANN_MLP>(path);
+	  annChinese_ = ml::CNN_MLP::load<ml::CNN_MLP>("zh-cnn.dat");
     }
   }
 
   void CharsIdentify::classify(cv::Mat featureRows, std::vector<int>& out_maxIndexs, 
     std::vector<float>& out_maxVals, std::vector<bool> isChineseVec){
     int rowNum = featureRows.rows;
-
     cv::Mat output(rowNum, kCharsTotalNumber, CV_32FC1);
     ann_->predict(featureRows, output);
 
@@ -93,6 +97,24 @@ namespace easypr {
     for (size_t index = 0; index < charVecSize; index++) {
       Mat charInput = charVec[index].getCharacterMat();
       Mat feature = charFeatures(charInput, kPredictSize);
+	  unsigned char img[20][20] = { 0 };
+	  memcpy(img, feature.data, sizeof(img));
+	  //if (!index)
+	  //{
+		 // for (int i = 0; i < 20; ++i)
+		 // {
+			//  for (int j = 0; j < 20; ++j)
+			//  {
+
+			//	  if (img[i][j] > 0)
+			//		  printf("¡ö");
+			//	  else
+			//		  printf("¡õ");
+			//  }
+			//  printf("\n");
+		 // }
+		 // printf("\n");
+	  //}
       featureRows.push_back(feature);
     }
 
